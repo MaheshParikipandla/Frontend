@@ -4,3 +4,55 @@
    <scope>runtime</scope>
    <optional>true</optional>
 </dependency>
+package com.SpringbootJdbcTemplate.jdbc;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class Controller {
+    @Autowired
+    Demo demo;
+    @GetMapping(value = "/studentname")
+    public String studentname(){
+        return "studentname";
+    }
+    @GetMapping(value = "studentnames")
+    public List<String> studentnames(){
+        return demo.getallStudentnames();
+
+    }
+
+    //username,password
+    //username and password is inside the database
+    @PostMapping(value="/login")//get json object
+    public String Login(@RequestBody Login login){
+        System.out.println(login.username);
+        return "login is done";
+    }
+
+    @GetMapping(value="params")
+    public String params(@RequestParam("name") String name,@RequestParam("pass") String pass){
+
+        return "hellow"+name;
+    }
+
+    @GetMapping(value="header")
+    public String header(@RequestHeader("name") String name,@RequestHeader("pass") String pass){
+        return "hellow"+name;
+    }
+
+}
+//json object
+//map java
+//{key:value,key:value}
+//http request body
+//Requestparams,requestbody,requestheader
+//view rep
+//.html
+//.jsp
+//request->url https://www.google.com?key=value&key=value //general part,
+// header->authentication info[username=hemanth&pass=" "]encoded,body[json],params[
+//json[key:value,key:value] map
