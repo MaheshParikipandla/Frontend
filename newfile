@@ -1,0 +1,99 @@
+//Myservices
+List<Books> list = new ArrayList<Books>();
+
+    public MyServices(){
+        this.list.add(new Books(12,"java","about java"));
+        this.list.add(new Books(13,"python","about python"));
+    }
+
+
+
+    @Override
+    public List<Books> getBooks() {
+        return list;
+    }
+
+    @Override
+    public Books addBook(Books books) {
+        this.list.add(books);
+        return books;
+    }
+
+    @Override
+    public Books getByid(int id) {
+        for (Books books:this.list) {
+            if(books.getId()==id){
+                return books;
+            }
+        }
+        return null;
+    }
+    
+    //config
+     @Bean
+    public MyServices myservices()
+    {
+        return new MyServices();
+    }
+    
+    
+    
+    //controller
+    @Autowired
+    MyServices myservices;
+    @GetMapping("books")
+    public List<Books> books(){
+        return myservices.getBooks();
+    }
+
+    @PostMapping("addbook")
+    public Books addBook(@RequestBody Books book){
+        return myservices.addBook(book);
+
+    }
+    @GetMapping("bookbyid")
+    public Books bookByid(@RequestParam("id") int id){
+        return myservices.getByid(id);
+    }
+    
+    
+    //books
+     int id;
+    String name;
+    String dis;
+
+    public Books(int id,String name,String dis)
+    {
+        this.id=id;
+        this.name=name;
+        this.dis=dis;
+
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDis() {
+        return dis;
+    }
+
+    public void setDis(String dis) {
+        this.dis = dis;
+    }
+    
+    //interface
+    public List<Books>getBooks();
+    public Books addBook(Books books);
+    public Books getByid(int id);
