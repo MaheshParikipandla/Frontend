@@ -1,99 +1,71 @@
-//Myservices
-List<Books> list = new ArrayList<Books>();
+form.jsp
 
-    public MyServices(){
-        this.list.add(new Books(12,"java","about java"));
-        this.list.add(new Books(13,"python","about python"));
-    }
+<html>
+<head>
+<style>
+form {
+background-color: skyblue;
+align-content: center;
+margin:auto;
+margin-top: 50px;
+border: solid;
+height: 200px;
+width: 500px;
+}
+label{
+margin:30px;
+}
+.button{
+margin-left :70px;
+}
+h1{
+margin-top: 40px;
+margin-left: 500px;
+color: red;
+}
+</style>
+</head>
+<body>
+<h1>Student form</h1>
+<form action="save" modelAttribute="student">
+<label>student name</label>
+<input type="text" name="name" placeholder="name"/><br>
+<label>college name</label>
+<input type="text" name="college"placeholder="college"/><br>
+<label>Branch</label>
+<input type="text" name="branch" placeholder="name" style="margin-left: 40px";/><br>
+<label>Age</label>
+<input type="number" name="age" placeholder="age" style="margin-left: 60px"/><br>
+<button class="button" >button</button>
+</form>
+</body>
+</html>
 
 
-
-    @Override
-    public List<Books> getBooks() {
-        return list;
-    }
-
-    @Override
-    public Books addBook(Books books) {
-        this.list.add(books);
-        return books;
-    }
-
-    @Override
-    public Books getByid(int id) {
-        for (Books books:this.list) {
-            if(books.getId()==id){
-                return books;
-            }
-        }
-        return null;
-    }
-    
-    //config
-     @Bean
-    public MyServices myservices()
-    {
-        return new MyServices();
-    }
-    
-    
-    
-    //controller
-    @Autowired
-    MyServices myservices;
-    @GetMapping("books")
-    public List<Books> books(){
-        return myservices.getBooks();
-    }
-
-    @PostMapping("addbook")
-    public Books addBook(@RequestBody Books book){
-        return myservices.addBook(book);
-
-    }
-    @GetMapping("bookbyid")
-    public Books bookByid(@RequestParam("id") int id){
-        return myservices.getByid(id);
-    }
-    
-    
-    //books
-     int id;
-    String name;
-    String dis;
-
-    public Books(int id,String name,String dis)
-    {
-        this.id=id;
-        this.name=name;
-        this.dis=dis;
-
-    }
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDis() {
-        return dis;
-    }
-
-    public void setDis(String dis) {
-        this.dis = dis;
-    }
-    
-    //interface
-    public List<Books>getBooks();
-    public Books addBook(Books books);
-    public Books getByid(int id);
+//controller
+package com.jspdemo.jspdemo.controller;
+import com.jspdemo.jspdemo.Student;
+import com.jspdemo.models.Model;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+@Controller
+public class Controllers {
+@Autowired
+Model model;
+@RequestMapping("/home")
+public String home() {
+return "home";
+}
+@RequestMapping("/form")
+public String form() {
+return "form";
+}
+@RequestMapping("/save")
+public String save(@ModelAttribute("student") Student student) {
+System.out.println(student.name);
+model.insert(student);
+return "completed";
+}
+}
