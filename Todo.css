@@ -1,0 +1,14 @@
+body {
+  background-color: hotpink;
+}
+div {
+  height: 250px;
+  width: 300px;
+  background-color: khaki;
+  position: relative;
+  top: 60px;
+  left: 35%;
+}
+h3 {
+  text-align: center;
+}
